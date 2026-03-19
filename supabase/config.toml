@@ -1,0 +1,31 @@
+project_id = "vibemarket"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[realtime]
+enabled = true
+
+[functions.semantic-search]
+verify_jwt = false
+
+[functions.create-checkout-intent]
+verify_jwt = true
+
+[functions.paid-order-notify]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.backfill-product-embeddings]
+verify_jwt = false
