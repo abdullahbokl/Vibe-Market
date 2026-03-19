@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "doppler: generate dart defines",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/generate_dart_defines_with_doppler.sh",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "VibeMarket Debug (Doppler)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "preLaunchTask": "doppler: generate dart defines",
+      "toolArgs": [
+        "--dart-define-from-file=.dart_defines.generated.json"
+      ]
+    },
+    {
+      "name": "VibeMarket Profile (Doppler)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "preLaunchTask": "doppler: generate dart defines",
+      "toolArgs": [
+        "--dart-define-from-file=.dart_defines.generated.json"
+      ]
+    },
+    {
+      "name": "VibeMarket Release (Doppler)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "preLaunchTask": "doppler: generate dart defines",
+      "toolArgs": [
+        "--dart-define-from-file=.dart_defines.generated.json"
+      ]
+    }
+  ]
+}

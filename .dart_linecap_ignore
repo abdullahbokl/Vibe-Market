@@ -1,0 +1,11 @@
+# Temporary exceptions during the ongoing refactor.
+lib/features/product/data/datasources/catalog_seed_data_source.dart
+lib/features/auth/data/repositories/supabase_auth_repository.dart
+lib/features/wishlist/presentation/pages/wishlist_page.dart
+lib/features/checkout/presentation/pages/checkout_page.dart
+lib/features/product/data/repositories/hybrid_product_repository.dart
+lib/features/auth/presentation/cubit/auth_cubit.dart
+lib/features/checkout/data/repositories/hybrid_checkout_repository.dart
+lib/features/search/presentation/bloc/search_bloc_handlers.dart
+lib/features/auth/presentation/widgets/auth_form.dart
+lib/features/cart/presentation/pages/cart_page.dart

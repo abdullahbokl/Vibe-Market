@@ -1,0 +1,4 @@
+setup:
+  - project: vibemarket
+    config: dev_vibemarket
+    path: . # The root folder
