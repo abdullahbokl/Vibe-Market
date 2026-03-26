@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,12 +34,14 @@ class ProductDropBloc extends Bloc<ProductDropEvent, ProductDropState> {
     Emitter<ProductDropState> emit,
   ) async {
     emit(state.copyWith(status: ProductDropStatus.loading, failure: null));
-    final detailResult = await _productRepository.getProductById(
-      event.productId,
-    );
-    final reactionResult = await _reactionRepository.getSnapshot(
-      event.productId,
-    );
+
+    final results = await Future.wait([
+      _productRepository.getProductById(event.productId),
+      _reactionRepository.getSnapshot(event.productId),
+    ]);
+
+    final detailResult = results[0] as Either<Failure, ProductDetail>;
+    final reactionResult = results[1] as Either<Failure, ReactionSnapshot>;
 
     detailResult.fold(
       (Failure failure) => emit(

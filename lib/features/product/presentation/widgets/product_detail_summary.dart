@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/services/countdown_ticker.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/countdown_pill.dart';
-import '../../../../core/widgets/dev_rebuild_logger.dart';
 import '../../../../core/widgets/price_badge.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../wishlist/presentation/cubit/wishlist_cubit.dart';
@@ -41,15 +39,10 @@ class ProductDetailSummary extends StatelessWidget {
             BlocSelector<WishlistCubit, WishlistState, bool>(
               selector: (WishlistState state) => state.ids.contains(summary.id),
               builder: (BuildContext context, bool isWishlisted) {
-                return DevRebuildLogger(
-                  label: 'product-detail:bookmark:${summary.id}',
-                  child: IconButton(
-                    onPressed: () => _toggleWishlist(context),
-                    icon: Icon(
-                      isWishlisted
-                          ? Icons.bookmark
-                          : Icons.bookmark_border_outlined,
-                    ),
+                return IconButton(
+                  onPressed: () => _toggleWishlist(context),
+                  icon: Icon(
+                    isWishlisted ? Icons.bookmark : Icons.bookmark_border_outlined,
                   ),
                 );
               },
@@ -66,7 +59,7 @@ class ProductDetailSummary extends StatelessWidget {
               const SizedBox(width: 12),
               CountdownPill(
                 endTime: saleEndTime,
-                precision: CountdownPrecision.seconds,
+                precision: CountdownPill.resolvePrecision(saleEndTime),
               ),
             ],
           ],
@@ -79,12 +72,9 @@ class ProductDetailSummary extends StatelessWidget {
           selector: (ProductDropState state) =>
               state.reactionSnapshot ?? summary.reactionSnapshot,
           builder: (BuildContext context, ReactionSnapshot reactionSnapshot) {
-            return DevRebuildLogger(
-              label: 'product-detail:reaction:${summary.id}',
-              child: Text(
-                '${reactionSnapshot.reactionCount} reactions • '
-                '${reactionSnapshot.liveViewerCount} live viewers',
-              ),
+            return Text(
+              '${reactionSnapshot.reactionCount} reactions • '
+              '${reactionSnapshot.liveViewerCount} live viewers',
             );
           },
         ),
