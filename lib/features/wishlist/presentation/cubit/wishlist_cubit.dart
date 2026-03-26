@@ -12,10 +12,11 @@ class WishlistCubit extends Cubit<WishlistState> {
   final WishlistRepository _repository;
 
   Future<void> load() async {
+    emit(state.copyWith(isBusy: true, failure: null));
     final result = await _repository.loadWishlistIds();
     result.fold(
-      (Failure failure) => emit(state.copyWith(failure: failure)),
-      (Set<String> ids) => emit(state.copyWith(ids: ids, failure: null)),
+      (Failure failure) => emit(state.copyWith(isBusy: false, failure: failure)),
+      (Set<String> ids) => emit(state.copyWith(isBusy: false, ids: ids, failure: null)),
     );
   }
 

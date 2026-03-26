@@ -15,11 +15,12 @@ class CartCubit extends Cubit<CartState> {
   final CartRepository _repository;
 
   Future<void> loadCart() async {
+    emit(state.copyWith(isBusy: true, failure: null));
     final result = await _repository.loadCart();
     result.fold(
-      (Failure failure) => emit(state.copyWith(failure: failure)),
+      (Failure failure) => emit(state.copyWith(isBusy: false, failure: failure)),
       (CartSnapshot snapshot) =>
-          emit(state.copyWith(snapshot: snapshot, failure: null)),
+          emit(state.copyWith(isBusy: false, snapshot: snapshot, failure: null)),
     );
   }
 
