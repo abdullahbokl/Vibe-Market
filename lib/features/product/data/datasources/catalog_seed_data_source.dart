@@ -8,6 +8,7 @@ import 'seed_data/main_catalog_data_3.dart';
 import 'seed_data/main_catalog_data_4.dart';
 import 'seed_data/main_catalog_data_5.dart';
 import 'seed_data/main_catalog_data_6.dart';
+import 'seed_data/main_catalog_data_7.dart';
 
 class CatalogSeedDataSource {
   CatalogSeedDataSource() {
@@ -32,6 +33,7 @@ class CatalogSeedDataSource {
       ...getMainCatalogChunk4(now),
       ...getMainCatalogChunk5(now),
       ...getMainCatalogChunk6(now),
+      ...getMainCatalogChunk7(now),
       ..._buildExpandedClothingCatalog(),
     ];
   }
