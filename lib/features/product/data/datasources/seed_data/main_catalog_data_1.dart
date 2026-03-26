@@ -1,0 +1,83 @@
+import 'package:vibemarket/features/product/domain/entities/product_entities.dart';
+import 'catalog_product_builder.dart';
+
+List<ProductDetail> getMainCatalogChunk1(DateTime now) {
+  return <ProductDetail>[
+    CatalogProductBuilder.build(
+      id: 'obsidian_runner_jacket',
+      title: 'Obsidian Runner Jacket',
+      tagline: 'Light-reactive shell cut for after-dark drops.',
+      priceCents: 24800,
+      heroImageUrl: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80',
+      seller: const SellerSummary(id: 'seller_nova', handle: '@novalab', displayName: 'Nova Lab'),
+      inventory: const InventorySnapshot(availableCount: 14, totalCount: 60, isLowStock: true),
+      dropMetadata: DropMetadata(saleEndTime: now.add(const Duration(hours: 5, minutes: 18)), dropLabel: 'After Hours Drop'),
+      reactionSnapshot: const ReactionSnapshot(reactionCount: 482, liveViewerCount: 126, hasReacted: false),
+      tags: const <String>['outerwear', 'night-run', 'limited'],
+      description: 'A premium shell with reflective detailing, storm cuffs, and a tapered performance cut that keeps the silhouette sharp on and off the street.',
+      story: 'Designed around late-city movement, this drop pairs technical weather shielding with a dress-level drape so the piece feels premium in motion and in stills.',
+      highlights: const <String>['Reflective seam piping', 'Water-resistant micro-ripstop', 'Limited batch numbering'],
+      gallery: const <ProductMedia>[
+        ProductMedia(id: 'media_1', url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+        ProductMedia(id: 'media_2', url: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+      ],
+    ),
+    CatalogProductBuilder.build(
+      id: 'gold_line_timepiece',
+      title: 'Gold Line Timepiece',
+      tagline: 'Satin black dial, champagne lume, 1-of-300.',
+      priceCents: 32500,
+      heroImageUrl: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1200&q=80',
+      seller: const SellerSummary(id: 'seller_aureate', handle: '@aureate', displayName: 'Aureate Goods'),
+      inventory: const InventorySnapshot(availableCount: 33, totalCount: 300, isLowStock: false),
+      dropMetadata: DropMetadata(saleEndTime: null, dropLabel: 'Collectors Window'),
+      reactionSnapshot: const ReactionSnapshot(reactionCount: 214, liveViewerCount: 74, hasReacted: false),
+      tags: const <String>['watch', 'collectors', 'luxury'],
+      description: 'Machined steel casework, matte black dial treatment, and a restrained gold seconds track that reads premium without becoming loud.',
+      story: 'The piece was built for the user who wants drop culture energy in a form that still feels timeless at dinner, at work, and in a lineup shot.',
+      highlights: const <String>['300-unit production cap', 'Japanese automatic movement', 'Sapphire-coated crystal'],
+      gallery: const <ProductMedia>[
+        ProductMedia(id: 'media_3', url: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+        ProductMedia(id: 'media_4', url: 'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+      ],
+    ),
+    CatalogProductBuilder.build(
+      id: 'pulse_audio_case',
+      title: 'Pulse Audio Case',
+      tagline: 'Carbon shell carry for premium listening kits.',
+      priceCents: 11800,
+      heroImageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
+      seller: const SellerSummary(id: 'seller_echo', handle: '@echoatelier', displayName: 'Echo Atelier'),
+      inventory: const InventorySnapshot(availableCount: 8, totalCount: 40, isLowStock: true),
+      dropMetadata: DropMetadata(saleEndTime: now.add(const Duration(hours: 2, minutes: 7)), dropLabel: 'Flash Capsule'),
+      reactionSnapshot: const ReactionSnapshot(reactionCount: 561, liveViewerCount: 208, hasReacted: false),
+      tags: const <String>['audio', 'accessory', 'flash-sale'],
+      description: 'Compact shell case for over-ear or premium in-ear setups, with velvet-lined compartments and anodized hardware designed for fast travel.',
+      story: 'This accessory drop is built for creators who carry a full sonic identity with them and still want the unboxing moment to feel elevated.',
+      highlights: const <String>['Velvet-lined shell', 'Low-profile hardware', 'Serialized drop card included'],
+      gallery: const <ProductMedia>[
+        ProductMedia(id: 'media_5', url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+        ProductMedia(id: 'media_6', url: 'https://images.unsplash.com/photo-1496957961599-e35b69ef5d7c?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+      ],
+    ),
+    CatalogProductBuilder.build(
+      id: 'noir_carry_duffel',
+      title: 'Noir Carry Duffel',
+      tagline: 'Soft-structured weekender with hidden utility grid.',
+      priceCents: 18900,
+      heroImageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80',
+      seller: const SellerSummary(id: 'seller_veil', handle: '@veilworks', displayName: 'Veil Works'),
+      inventory: const InventorySnapshot(availableCount: 21, totalCount: 90, isLowStock: false),
+      dropMetadata: DropMetadata(saleEndTime: null, dropLabel: 'Weekend Reserve'),
+      reactionSnapshot: const ReactionSnapshot(reactionCount: 307, liveViewerCount: 89, hasReacted: false),
+      tags: const <String>['travel', 'bag', 'minimal'],
+      description: 'Structured enough to look composed in hand, soft enough to move with you, and packed with hidden slotting for shoes, cables, and documents.',
+      story: 'The duffel is the answer to short-haul movement for buyers who want premium restraint and practical storage without visible clutter.',
+      highlights: const <String>['Hidden side organization grid', 'Coated canvas exterior', 'Convertible shoulder system'],
+      gallery: const <ProductMedia>[
+        ProductMedia(id: 'media_7', url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+        ProductMedia(id: 'media_8', url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80', type: 'image'),
+      ],
+    ),
+  ];
+}
