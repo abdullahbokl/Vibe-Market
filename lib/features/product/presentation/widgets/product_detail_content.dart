@@ -24,20 +24,26 @@ class ProductDetailContent extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.md),
       children: <Widget>[
-        ProductDetailGallery(mediaGallery: product.mediaGallery),
+        RepaintBoundary(
+          child: ProductDetailGallery(mediaGallery: product.mediaGallery),
+        ),
         const SizedBox(height: AppSpacing.md),
-        ProductDetailSummary(
-          product: product,
-          onOpenSignIn: onOpenSignIn,
+        RepaintBoundary(
+          child: ProductDetailSummary(
+            product: product,
+            onOpenSignIn: onOpenSignIn,
+          ),
         ),
         const SizedBox(height: 24),
-        ProductDetailActions(
-          product: product.summary,
-          onOpenSignIn: onOpenSignIn,
-          onOpenCheckout: onOpenCheckout,
+        RepaintBoundary(
+          child: ProductDetailActions(
+            product: product.summary,
+            onOpenSignIn: onOpenSignIn,
+            onOpenCheckout: onOpenCheckout,
+          ),
         ),
         const SizedBox(height: 16),
-        ProductDetailHighlights(product: product),
+        const RepaintBoundary(child: ProductDetailHighlights()),
       ],
     );
   }

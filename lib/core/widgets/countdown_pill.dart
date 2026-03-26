@@ -15,6 +15,13 @@ class CountdownPill extends StatelessWidget {
   final DateTime endTime;
   final CountdownPrecision precision;
 
+  static CountdownPrecision resolvePrecision(DateTime endTime) {
+    final Duration remaining = endTime.difference(DateTime.now());
+    return remaining.inMinutes < 60
+        ? CountdownPrecision.seconds
+        : CountdownPrecision.minutes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DateTime>(
