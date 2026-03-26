@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../services/countdown_ticker.dart';
-import '../theme/app_radius.dart';
-import '../theme/app_spacing.dart';
-import '../theme/app_theme_palette.dart';
+import 'countdown_pill_frame.dart';
 
 class CountdownPill extends StatelessWidget {
   const CountdownPill({
@@ -31,7 +29,7 @@ class CountdownPill extends StatelessWidget {
         final Duration remaining = endTime.difference(
           snapshot.data ?? DateTime.now(),
         );
-        return _CountdownPillFrame(label: _formatLabel(remaining));
+        return CountdownPillFrame(label: _formatLabel(remaining));
       },
     );
   }
@@ -47,30 +45,5 @@ class CountdownPill extends StatelessWidget {
     return '${hours.toString().padLeft(2, '0')}:'
         '${minutes.toString().padLeft(2, '0')}:'
         '${seconds.toString().padLeft(2, '0')}';
-  }
-}
-
-class _CountdownPillFrame extends StatelessWidget {
-  const _CountdownPillFrame({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final AppThemePalette palette = AppThemePalette.of(context);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: palette.elevatedSurface,
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        border: Border.all(color: palette.outline),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.xs,
-        ),
-        child: Text(label),
-      ),
-    );
   }
 }

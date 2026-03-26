@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme_palette.dart';
+import 'media_error_view.dart';
+import 'media_placeholder.dart';
 
 class MediaPreview extends StatelessWidget {
   const MediaPreview({
@@ -25,8 +26,9 @@ class MediaPreview extends StatelessWidget {
       imageUrl: imageUrl,
       fit: fit,
       memCacheWidth: _resolveMemCacheWidth(context),
-      placeholder: _buildPlaceholder,
-      errorWidget: _buildErrorWidget,
+      placeholder: (BuildContext context, String url) => const MediaPlaceholder(),
+      errorWidget: (BuildContext context, String url, Object error) =>
+          const MediaErrorView(),
     );
     final Widget content = height == null
         ? RepaintBoundary(child: image)
@@ -49,26 +51,5 @@ class MediaPreview extends StatelessWidget {
     final double screenWidth = MediaQuery.sizeOf(context).width;
     final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
     return (screenWidth * devicePixelRatio).round();
-  }
-
-  Widget _buildPlaceholder(BuildContext context, String url) {
-    final AppThemePalette palette = AppThemePalette.of(context);
-    return ColoredBox(
-      color: palette.elevatedSurface,
-      child: const SizedBox.expand(),
-    );
-  }
-
-  Widget _buildErrorWidget(BuildContext context, String url, Object error) {
-    final AppThemePalette palette = AppThemePalette.of(context);
-    return ColoredBox(
-      color: palette.elevatedSurface,
-      child: Center(
-        child: Icon(
-          Icons.broken_image_outlined,
-          color: palette.textSecondary,
-        ),
-      ),
-    );
   }
 }
