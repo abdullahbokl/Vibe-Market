@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
-import '../../../../core/widgets/dev_rebuild_logger.dart';
 import '../../../../core/widgets/media_preview.dart';
 import '../../../product/domain/entities/product_entities.dart';
 
@@ -21,61 +20,74 @@ class SearchResultsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DevRebuildLogger(
-      label: 'search-results-list',
-      child: ListView.separated(
-        controller: scrollController,
-        itemCount: products.length + (isPaginating ? 1 : 0),
-        separatorBuilder: (_, ignoredIndex) => const Divider(height: 1),
-        itemBuilder: (BuildContext context, int index) {
-          if (index >= products.length) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-          final ProductSummary product = products[index];
-          return InkWell(
-            onTap: () => onOpenProduct(product.id),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
+    return ListView.separated(
+      controller: scrollController,
+      itemCount: products.length + (isPaginating ? 1 : 0),
+      separatorBuilder: (_, ignoredIndex) => const Divider(height: 1),
+      itemBuilder: (BuildContext context, int index) {
+        if (index >= products.length) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+        return RepaintBoundary(
+          child: _SearchResultRow(
+            product: products[index],
+            onTap: () => onOpenProduct(products[index].id),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SearchResultRow extends StatelessWidget {
+  const _SearchResultRow({required this.product, required this.onTap});
+
+  final ProductSummary product;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 72,
+              height: 72,
+              child: MediaPreview(
+                imageUrl: product.heroImageUrl,
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                memCacheWidth: 144,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    width: 72,
-                    height: 72,
-                    child: MediaPreview(
-                      imageUrl: product.heroImageUrl,
-                      borderRadius: BorderRadius.circular(AppRadius.md),
-                      memCacheWidth: 144,
-                    ),
+                  Text(
+                    product.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          product.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          product.tagline,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 4),
+                  Text(
+                    product.tagline,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(width: 12),
-                  const Icon(Icons.chevron_right),
                 ],
               ),
             ),
-          );
-        },
+            const SizedBox(width: 12),
+            const Icon(Icons.chevron_right),
+          ],
+        ),
       ),
     );
   }

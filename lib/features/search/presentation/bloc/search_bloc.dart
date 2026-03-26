@@ -17,7 +17,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     : super(SearchState.initial()) {
     on<SearchStarted>(_onSearchStarted);
     on<SearchCleared>(_onSearchCleared);
-    on<SearchNextPageRequested>(_onSearchNextPageRequested);
+    on<SearchNextPageRequested>(
+      _onSearchNextPageRequested,
+      transformer: droppable(),
+    );
     on<SearchQueryChanged>(
       _onSearchQueryChanged,
       transformer: _debounceRestartable<SearchQueryChanged>(

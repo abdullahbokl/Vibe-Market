@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../../core/widgets/dev_rebuild_logger.dart';
 import '../../../../core/widgets/empty_state_view.dart';
 import '../../../../core/widgets/failure_state_view.dart';
 import '../../../../core/widgets/performance_marker.dart';
@@ -54,16 +53,15 @@ class SearchStateView extends StatelessWidget {
             state.status == SearchStatus.empty ||
             state.status == SearchStatus.failure ||
             (state.status == SearchStatus.loading && state.results.isNotEmpty);
-        return DevRebuildLogger(
-          label: 'search-state-view',
-          child: shouldMarkPerformance
-              ? PerformanceMarker(
-                  traceKey: 'search.first-content',
-                  label: 'Search first content visible',
-                  child: child,
-                )
-              : child,
-        );
+
+        if (shouldMarkPerformance) {
+           return PerformanceMarker(
+              traceKey: 'search.first-content',
+              label: 'Search first content visible',
+              child: child,
+            );
+        }
+        return child;
       },
     );
   }

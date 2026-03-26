@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,8 +34,11 @@ class _SearchPageBodyState extends State<SearchPageBody> {
     });
   }
 
+  Timer? _scrollDebounceTimer;
+
   @override
   void dispose() {
+    _scrollDebounceTimer?.cancel();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -42,14 +47,18 @@ class _SearchPageBodyState extends State<SearchPageBody> {
   }
 
   void _onScroll() {
-    if (!_scrollController.hasClients) {
+    if (!_scrollController.hasClients || _scrollDebounceTimer?.isActive == true) {
       return;
     }
     final double remaining =
         _scrollController.position.maxScrollExtent -
         _scrollController.position.pixels;
     if (remaining <= 320) {
-      context.read<SearchBloc>().add(const SearchNextPageRequested());
+      _scrollDebounceTimer = Timer(const Duration(milliseconds: 100), () {
+        if (mounted) {
+          context.read<SearchBloc>().add(const SearchNextPageRequested());
+        }
+      });
     }
   }
 
