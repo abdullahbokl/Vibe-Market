@@ -21,19 +21,46 @@ class FeedPageView extends StatefulWidget {
 }
 
 class _FeedPageViewState extends State<FeedPageView> {
+  late final PageController _pageController;
+  int _lastPrefetchedIndex = -1;
+
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
+    _pageController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAround(0));
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_pageController.hasClients) return;
+    
+    // In continuous scroll, we want to prefetch when a new item is approaching the screen
+    final double pageOffset = _pageController.page ?? 0;
+    final int approachingIndex = pageOffset.round();
+    
+    if (approachingIndex != _lastPrefetchedIndex) {
+      _lastPrefetchedIndex = approachingIndex;
+      _prefetchAround(approachingIndex);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      controller: _pageController,
+      pageSnapping: false,
       allowImplicitScrolling: true,
       scrollDirection: Axis.vertical,
+      // Bouncing physics feels smoother for continuous social feeds
+      physics: const BouncingScrollPhysics(),
       itemCount: widget.products.length,
-      onPageChanged: _prefetchAround,
       itemBuilder: (BuildContext context, int index) {
         final ProductSummary product = widget.products[index];
         return FeedProductCardItem(
@@ -46,7 +73,10 @@ class _FeedPageViewState extends State<FeedPageView> {
   }
 
   void _prefetchAround(int index) {
-    _prefetchAt(index + 1);
+    // Proactively fetch 2 items ahead for fluid continuous scroll
+    for (int i = 1; i <= 2; i++) {
+        _prefetchAt(index + i);
+    }
     _prefetchAt(index - 1);
   }
 

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_radius.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/utils/currency_formatter.dart';
-import '../../../../core/services/countdown_ticker.dart';
 import '../../../../core/widgets/countdown_pill.dart';
 import '../../../../core/widgets/media_preview.dart';
 import '../../../../core/widgets/price_badge.dart';
@@ -51,9 +50,11 @@ class FeedProductCard extends StatelessWidget {
                     Positioned(
                       top: AppSpacing.md,
                       left: AppSpacing.md,
-                      child: CountdownPill(
-                        endTime: saleEndTime,
-                        precision: CountdownPrecision.minutes,
+                      child: RepaintBoundary(
+                        child: CountdownPill(
+                          endTime: saleEndTime,
+                          precision: CountdownPill.resolvePrecision(saleEndTime),
+                        ),
                       ),
                     ),
                   Positioned(
