@@ -10,6 +10,7 @@ import '../features/auth/presentation/cubit/auth_cubit.dart';
 import '../features/bootstrap/presentation/cubit/bootstrap_cubit.dart';
 import '../features/cart/presentation/cubit/cart_cubit.dart';
 import '../features/wishlist/presentation/cubit/wishlist_cubit.dart';
+import '../core/services/snackbar_service.dart';
 import 'di/service_locator.dart';
 
 class VibeMarketApp extends StatefulWidget {
@@ -56,6 +57,7 @@ class _VibeMarketAppState extends State<VibeMarketApp> {
             return MaterialApp.router(
               title: 'VibeMarket',
               debugShowCheckedModeBanner: false,
+              scaffoldMessengerKey: locator<SnackbarService>().messengerKey,
               theme: AppTheme.light(),
               darkTheme: AppTheme.dark(),
               themeMode: state.themeMode,

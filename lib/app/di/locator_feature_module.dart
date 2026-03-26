@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 
 import '../../features/auth/data/repositories/supabase_auth_repository.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/data/datasources/supabase_auth_data_source.dart';
+
 import '../../features/auth/domain/usecases/continue_as_guest.dart';
 import '../../features/auth/domain/usecases/load_current_session.dart';
 import '../../features/cart/data/repositories/persistent_cart_repository.dart';
@@ -28,11 +30,14 @@ import '../../features/wishlist/domain/repositories/wishlist_repository.dart';
 
 void registerFeatureModule(GetIt locator) {
   locator.registerLazySingleton<CatalogSeedDataSource>(CatalogSeedDataSource.new);
+  locator.registerLazySingleton<SupabaseAuthDataSource>(
+    () => SupabaseAuthDataSource(gateway: locator(), environment: locator()),
+  );
   locator.registerLazySingleton<AuthRepository>(() => SupabaseAuthRepository(
-        gateway: locator(),
+        dataSource: locator(),
         secureStorage: locator(),
-        environment: locator(),
       ));
+
   locator.registerLazySingleton<ProductRepository>(
     () => HybridProductRepository(dataSource: locator(), gateway: locator()),
   );

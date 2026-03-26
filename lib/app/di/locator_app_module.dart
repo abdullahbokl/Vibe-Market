@@ -12,6 +12,9 @@ import '../../core/theme/persistent_theme_preference_repository.dart';
 import '../../core/theme/theme_preference_repository.dart';
 import '../router/app_router.dart';
 
+import '../../core/services/navigation_service.dart';
+import '../../core/services/snackbar_service.dart';
+
 void registerAppModule(
   GetIt locator, {
   required AppEnvironment environment,
@@ -25,6 +28,8 @@ void registerAppModule(
   locator.registerSingleton<AppSecureStorage>(secureStorage);
   locator.registerSingleton<ConnectivityService>(connectivityService);
   locator.registerSingleton<SupabaseGateway>(supabaseGateway);
+  locator.registerSingleton<NavigationService>(NavigationService());
+  locator.registerSingleton<SnackbarService>(SnackbarService());
   locator.registerLazySingleton<ThemePreferenceRepository>(
     () => PersistentThemePreferenceRepository(locator()),
   );
