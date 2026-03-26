@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../app/di/service_locator.dart';
+import '../../../../core/services/snackbar_service.dart';
 import '../cubit/auth_cubit.dart';
+import 'auth_messages.dart';
 
 class AuthForm extends StatelessWidget {
   const AuthForm({
@@ -73,7 +76,7 @@ class AuthForm extends StatelessWidget {
           onPressed: state.isBusy ? null : () => context.read<AuthCubit>().continueAsGuest(),
           child: const Text('Continue as guest'),
         ),
-        _AuthMessages(state: state),
+        AuthMessages(state: state),
       ],
     );
   }
@@ -82,52 +85,19 @@ class AuthForm extends StatelessWidget {
     if (isRegisterMode) {
       final String password = passwordController.text.trim();
       if (password != confirmPasswordController.text.trim()) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Passwords do not match.')));
+        locator<SnackbarService>().showError('Passwords do not match.');
         return;
       }
       context.read<AuthCubit>().signUpWithEmail(
-        email: emailController.text.trim(),
-        password: password,
-        displayName: displayNameController.text.trim(),
-      );
+            email: emailController.text.trim(),
+            password: password,
+            displayName: displayNameController.text.trim(),
+          );
       return;
     }
     context.read<AuthCubit>().signInWithEmail(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-  }
-}
-
-class _AuthMessages extends StatelessWidget {
-  const _AuthMessages({required this.state});
-
-  final AuthState state;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        if (state.failure != null) ...<Widget>[
-          const SizedBox(height: 16),
-          Text(
-            state.failure!.message,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.error,
-            ),
-          ),
-        ],
-        if (state.statusMessage != null) ...<Widget>[
-          const SizedBox(height: 16),
-          Text(
-            state.statusMessage!,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ],
-      ],
-    );
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
   }
 }
