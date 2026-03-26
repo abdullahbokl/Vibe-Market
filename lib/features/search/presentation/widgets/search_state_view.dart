@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/error/failure.dart';
 import '../../../../core/widgets/empty_state_view.dart';
-import '../../../../core/widgets/failure_state_view.dart';
 import '../../../../core/widgets/performance_marker.dart';
 import '../bloc/search_bloc.dart';
+import 'search_empty_view.dart';
+import 'search_failure_view.dart';
+import 'search_loading_view.dart';
 import 'search_results_list.dart';
 
 class SearchStateView extends StatelessWidget {
@@ -31,13 +32,21 @@ class SearchStateView extends StatelessWidget {
             );
             break;
           case SearchStatus.loading:
-            child = _buildLoading(state);
+            child = SearchLoadingView(
+              state: state,
+              scrollController: scrollController,
+              onOpenProduct: onOpenProduct,
+            );
             break;
           case SearchStatus.failure:
-            child = _buildFailure(state);
+            child = SearchFailureView(
+              state: state,
+              scrollController: scrollController,
+              onOpenProduct: onOpenProduct,
+            );
             break;
           case SearchStatus.empty:
-            child = _buildEmpty(state.query);
+            child = SearchEmptyView(query: state.query);
             break;
           case SearchStatus.success:
             child = SearchResultsList(
@@ -55,49 +64,14 @@ class SearchStateView extends StatelessWidget {
             (state.status == SearchStatus.loading && state.results.isNotEmpty);
 
         if (shouldMarkPerformance) {
-           return PerformanceMarker(
-              traceKey: 'search.first-content',
-              label: 'Search first content visible',
-              child: child,
-            );
+          return PerformanceMarker(
+            traceKey: 'search.first-content',
+            label: 'Search first content visible',
+            child: child,
+          );
         }
         return child;
       },
-    );
-  }
-
-  Widget _buildLoading(SearchState state) {
-    if (state.results.isNotEmpty) {
-      return SearchResultsList(
-        products: state.results,
-        isPaginating: state.isPaginating,
-        scrollController: scrollController,
-        onOpenProduct: onOpenProduct,
-      );
-    }
-    return const Center(child: CircularProgressIndicator());
-  }
-
-  Widget _buildFailure(SearchState state) {
-    if (state.results.isNotEmpty) {
-      return SearchResultsList(
-        products: state.results,
-        isPaginating: state.isPaginating,
-        scrollController: scrollController,
-        onOpenProduct: onOpenProduct,
-      );
-    }
-    return FailureStateView(
-      failure: state.failure ?? const Failure.unexpected('Search failed.'),
-    );
-  }
-
-  Widget _buildEmpty(String query) {
-    return EmptyStateView(
-      title: query.isEmpty ? 'Catalog is still getting stocked' : 'No match yet',
-      message: query.isEmpty
-          ? 'Products will appear here automatically as the browse feed loads.'
-          : 'Try broader language like outerwear, collectors, or flash capsule.',
     );
   }
 }
