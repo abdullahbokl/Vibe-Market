@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../app/di/service_locator.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/auth_gate_card.dart';
 import '../../../../core/widgets/empty_state_view.dart';
 import '../../../../core/widgets/failure_state_view.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
-import '../../domain/entities/order_entities.dart';
 import '../bloc/orders_bloc.dart';
+import '../widgets/order_tile.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({required this.onOpenSignIn, super.key});
@@ -64,7 +63,7 @@ class OrdersPage extends StatelessWidget {
                               const Divider(height: 1),
                       itemBuilder: (BuildContext context, int index) {
                         return RepaintBoundary(
-                          child: _OrderTile(order: state.items[index]),
+                          child: OrderTile(order: state.items[index]),
                         );
                       },
                     );
@@ -74,26 +73,6 @@ class OrdersPage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _OrderTile extends StatelessWidget {
-  const _OrderTile({required this.order});
-
-  final OrderSummary order;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(order.title),
-      subtitle: Text(order.status.toUpperCase()),
-      trailing: Text(
-        formatPrice(
-          priceCents: order.amountCents,
-          currencyCode: order.currencyCode,
-        ),
-      ),
     );
   }
 }
